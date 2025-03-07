@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:suki="https://github.com/kikipoulet/SukiUI"
+    xmlns:views="clr-namespace:LinqPad.X.Views"
     xmlns:vm="using:LinqPad.X.ViewModels"
     Title="LinqPad.X"
     d:DesignHeight="450"
@@ -14,70 +15,81 @@
     Icon="/Assets/avalonia-logo.ico"
     mc:Ignorable="d">
 
-    <Design.DataContext>
-        <!--
+	<Design.DataContext>
+		<!--
             This only sets the DataContext for the previewer in an IDE,
             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
         -->
-        <vm:MainWindowViewModel />
-    </Design.DataContext>
+		<vm:MainWindowViewModel />
+	</Design.DataContext>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="220" />
-            <ColumnDefinition Width="3*" MinWidth="500" />
-        </Grid.ColumnDefinitions>
-        <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="File">
-                    <MenuItem Header="New Query" />
-                    <MenuItem Header="Open Query" />
-                    <Separator />
-                    <MenuItem Header="Close Query" />
-                    <MenuItem Header="Close All Query" />
-                    <MenuItem Header="Close Unmodified Query" />
-                    <MenuItem Header="Close Untitled Query" />
-                    <Separator />
-                    <MenuItem Header="Save" />
-                    <MenuItem Header="Save As" />
-                    <Separator />
-                    <MenuItem Header="Exit" />
-                    <MenuItem Command="{Binding Path=ExitCommand}" Header="Exit and Shelve All State" />
-                </MenuItem>
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Undo" />
-                    <MenuItem Header="Redo" />
-                    <Separator />
-                    <MenuItem Header="Cut" />
-                    <MenuItem Header="Copy" />
-                    <MenuItem Header="Paste" />
-                    <MenuItem Header="Paste as Escaped String" />
-                    <Separator />
-                    <MenuItem Header="Select Al" />
-                    <Separator />
-                    <MenuItem Header="Find and Replace" />
-                    <MenuItem Header="Find Next" />
-                    <MenuItem Header="Find Previous" />
-                    <Separator />
-                    <MenuItem Header="Preference" />
-                </MenuItem>
-            </Menu>
-            <Grid RowDefinitions="* *">
-                <TreeView />
-                <GridSplitter
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" MinWidth="220" />
+			<ColumnDefinition Width="3*" MinWidth="500" />
+		</Grid.ColumnDefinitions>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="File">
+					<MenuItem Command="{Binding Path=NewQueryCommand}" Header="New Query" />
+					<MenuItem Header="Open Query" />
+					<Separator />
+					<MenuItem Header="Close Query" />
+					<MenuItem Header="Close All Query" />
+					<MenuItem Header="Close Unmodified Query" />
+					<MenuItem Header="Close Untitled Query" />
+					<Separator />
+					<MenuItem Header="Save" />
+					<MenuItem Header="Save As" />
+					<Separator />
+					<MenuItem Header="Exit" />
+					<MenuItem Command="{Binding Path=ExitCommand}" Header="Exit and Shelve All State" />
+				</MenuItem>
+				<MenuItem Header="Edit">
+					<MenuItem Header="Undo" />
+					<MenuItem Header="Redo" />
+					<Separator />
+					<MenuItem Header="Cut" />
+					<MenuItem Header="Copy" />
+					<MenuItem Header="Paste" />
+					<MenuItem Header="Paste as Escaped String" />
+					<Separator />
+					<MenuItem Header="Select Al" />
+					<Separator />
+					<MenuItem Header="Find and Replace" />
+					<MenuItem Header="Find Next" />
+					<MenuItem Header="Find Previous" />
+					<Separator />
+					<MenuItem Header="Preference" />
+				</MenuItem>
+			</Menu>
+			<Grid RowDefinitions="* *">
+				<TreeView />
+				<GridSplitter
                     Height="5"
                     VerticalAlignment="Bottom"
                     ResizeDirection="Rows" />
-                <TabControl Grid.Row="1">
-                    <TabItem Header="My Queries" />
-                    <TabItem Header="My Extensions" />
-                </TabControl>
-            </Grid>
-        </DockPanel>
-        <GridSplitter
+				<TabControl Grid.Row="1">
+					<TabItem Header="My Queries" />
+					<TabItem Header="My Extensions" />
+				</TabControl>
+			</Grid>
+		</DockPanel>
+		<GridSplitter
             Width="5"
             HorizontalAlignment="Right"
             ResizeDirection="Columns" />
-        <TabControl Grid.Column="1" />
-    </Grid>
+		<TabControl Grid.Column="1" ItemsSource="{Binding Path=Details}">
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Path=Title}" />
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+			<TabControl.ContentTemplate>
+				<DataTemplate>
+					<views:QueryDetailView DataContext="{Binding Path=.}" />
+				</DataTemplate>
+			</TabControl.ContentTemplate>
+		</TabControl>
+	</Grid>
 </suki:SukiWindow>

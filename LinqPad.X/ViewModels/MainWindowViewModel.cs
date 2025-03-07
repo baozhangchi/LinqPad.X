@@ -1,15 +1,26 @@
 ﻿using Avalonia;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using System.Collections.ObjectModel;
 
 namespace LinqPad.X.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    internal partial class MainWindowViewModel : ViewModelBase
     {
+        private int _index = 1;
+
         [RelayCommand]
         private void Exit()
         {
             Environment.Exit(0);
+        }
+
+        public ObservableCollection<QueryDetailViewModel> Details { get; } = new ObservableCollection<QueryDetailViewModel>();
+
+        [RelayCommand]
+        private void NewQuery()
+        {
+            Details.Add(new QueryDetailViewModel { Title = $"Query {_index++}" });
         }
     }
 }

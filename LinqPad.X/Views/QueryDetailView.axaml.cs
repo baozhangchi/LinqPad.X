@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace LinqPad.X;
+namespace LinqPad.X.Views;
 
-public partial class QueryDetail : UserControl
+public partial class QueryDetailView : UserControl
 {
-    public QueryDetail()
+    public QueryDetailView()
     {
         InitializeComponent();
     }
